@@ -1,7 +1,10 @@
 Embarque
 ========
 
-plateforme depot systéme embarque EIDD2013-2014
+plateforme depot TP systéme embarque EIDD2013-2014
 
-DEPOT FICHIER TP
+Dir: 
+Gio _> depot de giovanni
+Ken _> depot de kenny
+Syl _> depot de sylvain
 
