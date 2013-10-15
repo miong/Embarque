@@ -1,7 +1,7 @@
 
 all: main test clean
 
-main: libcolimacon.so libcolimacon.a
+main: libcolimacon.so 
 	gcc  main.c -o main -L . -lcolimacon
 
 libcolimacon.so: colimacon.o
@@ -12,9 +12,16 @@ colimacon.o: colimacon.c
 
 test: libcolimacon.so
 	gcc test.c -o test -L . -lcolimacon
+
+static:
+	gcc -Wall -c colimacon.c -o colimacon.o
+	ar -r libcolimacon.a colimacon.o
+	gcc -Wall --static main.c -o main -L . -lcolimacon
+	rm -rf *.o *~
 clean:
-	rm -rf *.o
+	rm -rf *.o *~
 
 mrproper: clean
 	rm -rf main
-	rm -rf *.so
+	rm -rf test	
+	rm -rf *.a *.so
