@@ -17,6 +17,7 @@ static:
 	gcc -Wall -c colimacon.c -o colimacon.o
 	ar -r libcolimacon.a colimacon.o
 	gcc -Wall --static main.c -o main -L . -lcolimacon
+	gcc -Wall --static test.c -o test -L . -lcolimacon
 	rm -rf *.o *~
 clean:
 	rm -rf *.o *~
