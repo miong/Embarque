@@ -1,0 +1,10 @@
+colimacon.c
+
+
+//on remplit les lignes et colonnes les plus exterieures ...remplies
+
+main.c
+
+l32 tableau
+l33 lignes
+l38 rencontree
