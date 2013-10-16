@@ -1,0 +1,9 @@
+** Lib.c **
+
+L_19 :pourquoi calloc ?? plus long que malloc et initisalisation avec 0 pour rien !!!
+
+L_36 - L_40 : pas clair avec inversement i et j pour ligne/colonne !!!
+
+** Main.c **
+
+lit les valeurs rows et columns directement dans argv !! 
