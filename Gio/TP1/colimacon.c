@@ -34,7 +34,7 @@ int colimacon(int **array, unsigned int rows, unsigned int columns){
 	cpt_max = rows * columns;
 
 	// debut de l'algorithme de remplissage
-	// on remplis les ligne et colonnes les plus extérieurs qui ne sont pas encore remplie (1 boucle "for" par bords)
+	// on remplies les ligne et colonnes les plus extérieurs qui ne sont pas encore remplie (1 boucle "for" par bords)
 	while(cpt <= cpt_max ){
 
 			for(i=c_min;i<=c_max;i++){

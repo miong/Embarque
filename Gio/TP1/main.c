@@ -29,13 +29,13 @@ int main(int argc,char **argv){
 				return -1;
 			}
 
-			//Creation du tableu par la librairie colimacon
-			printf("Creation du tableau en colimacon de %d ligne et %d colonnes\n",rows,columns);
+			//Creation du tableau par la librairie colimacon
+			printf("Creation du tableau en colimacon de %d lignes et %d colonnes\n",rows,columns);
 			val_ret = colimacon(&array,rows,columns);
 			printf("Affichage du tableau\n\n");
 			if(val_ret<0){
 				//Erreur lors du traitement de colimacon
-				printf("Erreur, la fonction colimacon a rencontrer un probleme\n");
+				printf("Erreur, la fonction colimacon a rencontree un probleme\n");
 				return -1;       
 
 			}else{
