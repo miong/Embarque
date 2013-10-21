@@ -4,74 +4,55 @@
 /*                                                                    */
 /**********************************************************************/
 
-#include "libhashtable.h"
+#include "libliste.h"
 #include <stdlib.h>
 #include <stdio.h>
 
+// Structure d'un element d'un liste d'entier
 struct mynode{
 	int element;
-	struct list_head ld;
+	struct list_head l;
 	
-};
-
-struct myhashentry{
-	int element;
-	struct hash_table_entry hte;
 };
 
 int main(int argc,char **argv){
 	
-	/*struct mynode zero;
-	zero.element = 0;
-	INIT_LIST_HEAD(&(zero.ld));
-	printf("element=%d suivant=%p precedent=%p\n",zero.element,zero.ld.suivant,zero.ld.precedent);
+	//creation et initialisation d'une liste lh pour une liste d'entier
+	struct list_head lh;
+	INIT_LIST_HEAD(&lh);
+
+	// Creation de l'element 1 de la liste et ajout a la liste
 	struct mynode un;
 	un.element = 1;
-	INIT_LIST_HEAD(&(un.ld));
-	printf("element=%d suivant=%p precedent=%p\n",un.element,un.ld.suivant,un.ld.precedent);
-	list_add(&(un.ld),&(zero.ld));
-	printf("element=%d suivant=%p precedent=%p\n",zero.element,zero.ld.suivant,zero.ld.precedent);
-	printf("element=%d suivant=%p precedent=%p\n",un.element,un.ld.suivant,un.ld.precedent);
+	list_add(&(un.l),&lh);
+
+	// Creation de l'element 2 de la liste et ajout a la liste
 	struct mynode deux;
 	deux.element = 2;
-	INIT_LIST_HEAD(&(deux.ld));
-	list_add(&(deux.ld),&(zero.ld));
+	list_add(&(deux.l),&lh);
+
+	// Creation de l'element 3 de la liste et ajout a la liste
+	struct mynode trois;
+	trois.element = 3;
+	list_add(&(trois.l),&lh);
+
+	// parcours de lh avec un pointeur j et affichage de chaque elements
 	struct mynode *j;
 	printf("[");
-	list_for_each_entry(j,&(zero.ld),ld){
+	list_for_each_entry(j,&lh,l){
 			printf(" %d ",j->element);
 	}
 	printf("]\n");
-	list_del(&(un.ld));
-	printf("element=%d suivant=%p precedent=%p\n",zero.element,zero.ld.suivant,zero.ld.precedent);
-	printf("element=%d suivant=%p precedent=%p\n",un.element,un.ld.suivant,un.ld.precedent);*/
 	
-	struct hash_table ht;
-	INIT_HASH_TABLE(&ht);
+	// suppession de l'element deux
+	list_del(&(deux.l));
 
-	struct myhashentry e1;
-	e1.element = 1;
-	e1.hte.entry_id = 4096;
-	hash_table_add(&(e1.hte),&ht);
+	// parcours de lh avec un pointeur j et affichage de chaque elements
+	printf("[");
+	list_for_each_entry(j,&lh,l){
+			printf(" %d ",j->element);
+	}
+	printf("]\n");
 
-	struct myhashentry e2;
-	e2.element = 2;
-	e2.hte.entry_id = 8192;
-	hash_table_add(&(e2.hte),&ht);
-
-	int id;
-	for(id=0;id<20;id++)
-		printf("hash=%d\n",hash_entry_id(4096*id));
-		
-	struct myhashentry *e;
-	hash_table_get_by_id(e,ht,4096,hte);
-	if(e != NULL)
-		printf("%d\n",e->element);
-
-	hash_table_del(&(e1.hte));
-
-	hash_table_get_by_id(e,ht,4096,hte);
-	if(e != NULL)
-		printf("%d\n",e->element);
 	return 0;
 }
