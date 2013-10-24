@@ -1,6 +1,6 @@
 /**********************************************************************/
 /*                                                                    */
-/*                  TP2 - TESTHASHTABLE.C - MION GIOVANNI                 */
+/*                  TP2 - TESTHASHTABLE.C - MION GIOVANNI             */
 /*                                                                    */
 /**********************************************************************/
 
@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// definition de la structure d'un element entier dans une hash_table
+// definition de la structure d'un element entier pour une hash_table (i.e comportant un membre hash_table_entry)
 struct myhashentry{
 	int element;
 	struct hash_table_entry hte;

@@ -22,9 +22,11 @@ int hash_entry(struct hash_table_entry *hte){
 	return hash_entry_id(hte->entry_id);
 }
 
-// calcule de l'indice de la liste en fonction d'un id 
+// calcule de l'indice de la liste en fonction d'un id
+// Multiplier l'id par 253 permet de redistribuer les indices
+// Pour garantir que l'indice soit valide pour le tableau on utilise %nbListe.
 int hash_entry_id(int id){
-	return (256*id)%nbListe;
+	return (253*id)%nbListe;
 }
 
 //ajout a la hash_table ht un element hte

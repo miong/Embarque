@@ -9,10 +9,8 @@
 
 // Initialisation d'une téte de liste
 void INIT_LIST_HEAD (struct list_head *head){
-
-	(*head).suivant=head;
-	(*head).precedent=head;
-
+	head->suivant=head;
+	head->precedent=head;
 }
 
 // Ajout d'un element node a une liste dont la téte est head
