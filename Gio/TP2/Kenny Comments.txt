@@ -1,0 +1,23 @@
+libliste.c
+
+
+13
+14    mettre format head->suivant et head->precedent afin de rester homogène par rapport au reste du code.
+
+30
+30 Inutile de mettre node->suivant et node->precedent à NULL. On ne s'occupe que du chainage.
+
+
+testliste.c
+
+suggestion d'une méthode d'affichage printMyNode(struct mynode* node);
+
+
+
+libhashtable.c
+
+27 expliquer choix de cette formule pour le calcul d'indice
+
+testhashtable.c
+
+11 // definition de la structure d'un element entier dans une hash_table_entry et non hast_table
