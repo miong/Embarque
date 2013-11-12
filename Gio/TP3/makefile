@@ -11,4 +11,5 @@ clean:
 	rm -rf *.o *~
 
 mrproper: clean
+	rm -rf temps_crea_thread
 	rm -rf temps_crea_proc
