@@ -54,7 +54,7 @@ int main(int argc,char** argv){
     //prise du temps avant creation.
     clock_gettime(CLOCK_REALTIME, &t_start_rt);
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t_start_cpu);
-    for(j=0;j<50;j++){
+    for(j=0;j<1000;j++){
       //creation du thread
       pthread_create(&threads[i],NULL,&thread_code,arg);
       //attente la fin de la thread
@@ -64,8 +64,8 @@ int main(int argc,char** argv){
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t_stop_cpu);
     clock_gettime(CLOCK_REALTIME, &t_stop_rt);
     //on calcule le temps reel passer entre les deux temps et on la stock dans mem_creations
-    mem_creations_cpu[i]= ( ((t_stop_cpu.tv_sec*pow(10,9)+t_stop_cpu.tv_nsec) - (t_start_cpu.tv_sec*pow(10,9)+t_start_cpu.tv_nsec))/50.0 );
-    mem_creations_rt[i]= ( ((t_stop_rt.tv_sec*pow(10,9)+t_stop_rt.tv_nsec) - (t_start_rt.tv_sec*pow(10,9)+t_start_rt.tv_nsec))/50.0 );
+    mem_creations_cpu[i]= ( ((t_stop_cpu.tv_sec*pow(10,9)+t_stop_cpu.tv_nsec) - (t_start_cpu.tv_sec*pow(10,9)+t_start_cpu.tv_nsec))/1000.0 );
+    mem_creations_rt[i]= ( ((t_stop_rt.tv_sec*pow(10,9)+t_stop_rt.tv_nsec) - (t_start_rt.tv_sec*pow(10,9)+t_start_rt.tv_nsec))/1000.0 );
   }
   
   //calule de la moyenne et affichage de celle-ci
