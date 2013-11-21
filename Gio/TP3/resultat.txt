@@ -1,0 +1,52 @@
+
+la moyenne de temps CPU pour la creation/destruction de processus est:
+26695.484580 nanosecondes
+0.000027 secondes
+
+la moyenne de temps RT pour la creation/destruction de processus est:
+87189.555200 nanosecondes
+0.000087 secondes
+
+resolution des mesures:
+CPU = 1 nsec
+RT = 1 nsec
+
+
+la moyenne de temps CPU pour la creation/destruction de threads est:
+9833.692260 nanosecondes
+0.000010 secondes
+
+la moyenne de temps RT pour la creation/destruction de threads est:
+11003.878400 nanosecondes
+0.000011 secondes
+
+resolution des mesures:
+CPU = 1 nsec
+RT = 1 nsec
+
+
+la moyenne de temps CPU pour le changement de processus est:
+717.504660 nanosecondes
+0.000001 secondes
+
+la moyenne de temps RT pour le changement de processus est:
+1472.757760 nanosecondes
+0.000001 secondes
+
+resolution des mesures:
+CPU = 1 nsec
+RT = 1 nsec
+
+
+la moyenne de temps CPU pour le changement de thread est:
+1373.334660 nanosecondes
+0.000001 secondes
+
+la moyenne de temps RT pour le changement de thread est:
+1379.921920 nanosecondes
+0.000001 secondes
+
+resolution des mesures:
+CPU = 1 nsec
+RT = 1 nsec
+

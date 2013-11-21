@@ -21,7 +21,7 @@ void P(int semid,short nb){
 	struct sembuf op;	
 	op.sem_num = nb;
 	op.sem_op = -1;
-	op.sem_flg = 25;
+	op.sem_flg = 0;
 	if(semop(semid, &op, 1)<0){
 	  printf("Erreur P : %d\n",errno);
 	}
@@ -88,10 +88,8 @@ int main(int argc,char** argv){
   // on regarde la resolution des mesures
   clock_getres(CLOCK_REALTIME,&rt_res);
   clock_getres(CLOCK_PROCESS_CPUTIME_ID,&cpu_res);
-
-  //mesure du temps de creation d'un processus
   
-  //on fait cette mesure sur 50 cretaions de 50 processus et on calcule la moyenne
+  //on fait cette mesure sur 50*1000 context switch de thread et on calcule la moyenne
   for(i=0;i<50;i++){
     
     //creation du 2ème thread et changements de context 1000 fois
@@ -118,8 +116,8 @@ int main(int argc,char** argv){
   //calule de la moyenne et affichage de celle-ci
   moy_cpu = array_moy(mem_creations_cpu,50);
   moy_rt = array_moy(mem_creations_rt,50);
-  printf("\nla moyenne de temps CPU pour le changement de processus est:\n%f nanosecondes\n%f secondes\n\n",moy_cpu,moy_cpu/pow(10,9));
-  printf("la moyenne de temps RT pour le changement de processus est:\n%f nanosecondes\n%f secondes\n\n",moy_rt,moy_rt/pow(10,9));
+  printf("\nla moyenne de temps CPU pour le changement de thread est:\n%f nanosecondes\n%f secondes\n\n",moy_cpu,moy_cpu/pow(10,9));
+  printf("la moyenne de temps RT pour le changement de thread est:\n%f nanosecondes\n%f secondes\n\n",moy_rt,moy_rt/pow(10,9));
 
   printf("resolution des mesures:\nCPU = %ld nsec\nRT = %ld nsec\n\n",cpu_res.tv_nsec,rt_res.tv_nsec);
 
