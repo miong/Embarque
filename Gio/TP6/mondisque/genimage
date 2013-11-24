@@ -1,0 +1,22 @@
+#!/bin/sh -xv
+
+IMG=test.img
+ROOTFS=root/
+
+HEAD=16
+SECTORS=63
+
+EXT2SIZE=`du -s -k $ROOTFS | cut -f1`
+EXT2SIZE=5000
+
+CYLINDERS=`expr \( \( $SECTORS \* 512 \) + \( $EXT2SIZE \* 1024 \) \) / \( $HEAD \* $SECTORS \* 512 \) + 1`
+
+genext2fs -b $EXT2SIZE  -d $ROOTFS -D dev.txt $IMG.ext2
+
+dd if=/dev/zero bs=512 count=$SECTORS | cat - $IMG.ext2 > $IMG
+
+/sbin/sfdisk --force -uS -H $HEAD -S $SECTORS -C $CYLINDERS $IMG << EOF
+$SECTORS,,L,*
+EOF
+
+rm -f $IMG.ext2

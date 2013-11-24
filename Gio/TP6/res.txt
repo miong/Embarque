@@ -1,0 +1,114 @@
+Q-Indiquez comment vous avez procÃ©der pour effectuer les configurations ci-dessus (points A,
+et B). Donnez le Â« chemin Â» de sÃ©lection dans le menu de configuration.
+
+R-Edition du fichier .config puis menuconfig pour valider.
+
+Q-Combien de temps a pris votre compilation (donnez des prÃ©cisions sur l'environnement de
+gÃ©nÃ©ration)?
+
+R- 12m49.864s temps mural avec 2 gedit ouvert,2 xterm,2 evince et 1 iceweasel
+environement multicoeur
+
+Q-OÃ¹ se trouve le fichier gÃ©nÃ©rÃ©, quelle taille fait-il?
+
+R-arch/x86/boot/bzImage
+  taille: 1,4Mo
+
+Q-Quel est le format de ce fichier?
+
+R-bzImage (big zimage)
+
+Q-Pourquoi -static Ã  la compilation ?
+
+R- pour pas aller cherche les bibliothÃ©que dynamiquement qui ne sont pas pour ARM !!
+
+
+Q-Compilez en utilisant une édition de liens statique.
+? Comment, Pourquoi ?
+
+R- -static (??) , pour ne pas allez chercher les bibliothèque dynamiquement alors qu'elles ne seront pas sur le systeme
+
+Q- Listez l'arborescence obtenue (format -l)
+
+Gnnn ??? format -l ????
+
+Q- Quelle commande avez-vous utilisée pour générer votre programme « init »? Pourquoi ?
+
+R-gcc -static -m32 hello.c hello_32
+  mv hello_32 mondisque/root/sbin/init
+  Car on veut pas de liaison dynamique ( absence des librairy .so sur le disk !!)
+
+
+Q- Donnez le résultat de la commande file sur votre programme init / hello.
+
+R- hello_32: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), statically linked, for GNU/Linux 2.6.26, BuildID[sha1]
+   =0x721ddb50188541279f89c058ced560136eac4ce4, not stripped
+
+Q- Quelle est la taille sur disque de cette commande init /hello? Par quelle(s) commande(s) avez-vous trouvé cette information?
+
+R- 535778 octect - size
+
+Q- Quelles sont les tailles de ses segments de code et de données, sur disque et en mémoire? Par quelle(s) commande(s) avez-vous trouvé ces informations?
+
+R- Code :  disk:0x80a8c mem:0x80a8c
+   data :  disk:0x007b4 mem:0x02340
+   readelf -l hello_32
+
+Q- A quelle adresse en mémoire virtuelle le segment de code sera-t-il placé? Et le segment dedonnées? Et la pile? Par quelle(s) commande(s) avez-vous trouvé ces informations ?
+
+R- code: 0x08048000  data: 0x080c9a8c  stack: 0x00000000
+   readelf -l hello_32
+
+Q- Pourquoi faut-il utiliser une édition de liens statique?
+
+R- Car les librairie ne seront pas disponible sur notre systeme donc pas de liaison dynamique possible.
+
+Q- Que faudrait-il faire pour utiliser une édition de liens dynamique?
+
+R- Il faudrait crée sur le disque de notre system le dossier /lib et y mettre les librairie en .so compiler pour ARM. ( les .h il vont ou ?? )
+
+Q- Quelles erreurs éventuelles avez-vous rencontrées? Pourquoi? Comment avez-vous résolu ces problèmes?
+
+R- Pas d'erreur a signaler
+
+Q- A quoi sert l'argument « -append » de Qemu? Que peut-on passer comme valeur à cet
+argument? Où trouver cette information?
+
+R- l'argument append sert a passer un argument au noyaux - root= pour spécifier la racine du system de fichier | console= pour spécifier le /dev qui sert de console
+
+Q- Que se passe-t-il quand votre programme « init » se termine après avoir affiché « Hello
+World! »? Pourquoi?
+
+R- Kernel Panic !! car init fini. Normalement a la fin de init on fait un execvp pour passer la main a l'OS.
+
+Q- Quelle commande avez-vous utilisée pour générer votre programme « init »?
+
+R- gcc -m32 hello.c -o hello_32_dyn
+   cp hello_32_dyn mondique/root/sbin/init
+
+Q- Donnez le résultat de la commande file sur votre programme init / hello.
+
+R- hello_32_dyn: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.26, BuildID[sha1] 
+   =0xf650649ebe58a934f3e1b75e451b41f1245fa4a6, not stripped
+
+Q- Quelle est la taille sur disque de cette commande init /hello? Par quelle(s) commande(s) avez-vous trouvé cette information?
+
+R- 1796 octets - size
+
+Q- Quelles sont les tailles de ses segments de code et de données, sur disque et en mémoire? Par quelle(s) commande(s) avez-vous trouvé ces informations?
+
+R- code disk:0x00710 mem:0x00710
+   data disk:0x0012c mem:0x00138
+	 readelf -l
+
+Q- Donnez le résultat de la commande ldd.
+
+R- linux-gate.so.1 =>  (0xf7794000)
+   libc.so.6 => /lib/i386-linux-gnu/i686/cmov/libc.so.6 (0xf7606000)
+   /lib/ld-linux.so.2 (0xf7795000)
+
+Q- Indiquez quelles bibliothèques vous avez copié dans votre arborescence root.
+
+R- libc et ld-linux
+
+

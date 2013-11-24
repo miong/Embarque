@@ -1,0 +1,51 @@
+Q1
+
+On ne s'arrete pas si argc = 1 et on demande argv[1] se qui sous-entend que argc >1
+Si il n'y a pas d'argument le programme affiche le msg d'erreur puis plante.
+Correction: mettre un else qui encadre le reste de code
+
+Q2
+
+Pour le printf : inversion des entrer par rapport a l'affichage ( %s -> int et %d -> char* )
+pour l'affichage ?: le pointeur chaine a été modifier (++) --> on tape pas o bonne endroit pour l'affichage !!
+
+Q3
+
+??????????
+
+Q4
+
+if (res = 0) -----> pas un test mais on change la valeur de res !!
+
+Q5
+
+???????????
+
+Q6
+
+On crée plus de 20 processus !!! -> pas de differentiation pére/fils -> le fils aussi refait des fork() !
+
+Q7
+
+Pire que Q6 -> chaque thread crée recommence la fontion de création de thread -> threadception !!!
+
+Q8
+
+???????????
+
+Q9
+
+???????????
+
+Q10
+
+Test de retour de malloc avant d'acceder au champs de la structures !!!
+
+Q11
+
+Free(pt) dans colimacon :o ?!
+char * ????
+
+Q12
+
+Dans colimacon si error malloc alors perror OK mais pas de exit(1) mais return null -> dans le main utilisation sans verification de null
