@@ -11,7 +11,9 @@ pour l'affichage ?: le pointeur chaine a été modifier (++) --> on tape pas o b
 
 Q3
 
-??????????
+Les membre de struct timeval sont des long int et sont caster en long.
+La taille des long n'est pas la méme selon que l'on se trouve sur 32 ou 64 bits
+Il se peut donc que la valeur du long int dépasse la valeur max d'un long et induise un probleme sur une machine 32bits alors que non sur une machine 64bits
 
 Q4
 
@@ -19,7 +21,7 @@ if (res = 0) -----> pas un test mais on change la valeur de res !!
 
 Q5
 
-???????????
+Pas de verification du retour de malloc -> danger
 
 Q6
 
@@ -35,7 +37,8 @@ Q8
 
 Q9
 
-???????????
+Il se peut que après l'apelle du fork, le processus actif soit le fils dans ce cas il quite et genere le signal SIGCHLD qui apelle le signal handler du père puis relance celui-ci juste avant le pause() se qui le fait attendre un signal qui est deja arrivé.
+correction : il faut s'assurer que le pére rentre en pause avant que le fils ne quite avec des moyens de synchronisation comme yield ou sleep pour endormir le fils et donné la main au père
 
 Q10
 
