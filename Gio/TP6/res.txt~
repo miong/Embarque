@@ -1,0 +1,48 @@
+Q-Indiquez comment vous avez procéder pour effectuer les configurations ci-dessus (points A,
+et B). Donnez le « chemin » de sélection dans le menu de configuration.
+
+R- make menuconfig -> general system -> local version
+		   -> file system    ->  seconde extended fs support
+
+Q-Où se trouve la documentation du noyau Linux?
+
+
+Q-Combien de temps a pris votre compilation (donnez des précisions sur l'environnement de
+génération)?
+
+R- 12m49.864s temps mural avec 2 gedit ouvert,2 xterm,2 evince et 1 iceweasel
+environement multicoeur
+
+Q-Où se trouve le fichier généré, quelle taille fait-il?
+
+R-arch/x86/boot/bzImage
+  taille: 1,4Mo
+
+Q-Quel est le format de ce fichier?
+
+R-bzImage (big zimage)
+
+Q- Si on avait généré le noyau Linux pour notre machine de développement, que faudrait-il
+   faire ensuite pour « installer » ce noyau et tenter de redémarrer notre machine avec notre
+     nouveau noyau? (Donnez les quelques commandes nécessaires).
+
+Q- Quelles différences avez-vous trouvé entre la 3.12 et la version précédente ? Quelles sources
+       avez-vous utilisées ?
+
+
+Q-Pourquoi -static à la compilation ?
+
+R- pour pas aller cherche les bibliothéque dynamiquement qui ne sont pas pour ARM !!
+
+Q- Comment, Pourquoi?
+
+R- option -static. Car Sur notre disque il n'y a pas les librairies qu'il chercherais dynamiquement.
+
+ 
+
+
+
+
+
+
+

@@ -1,7 +1,12 @@
 Q-Indiquez comment vous avez proc√©der pour effectuer les configurations ci-dessus (points A,
 et B). Donnez le ¬´ chemin ¬ª de s√©lection dans le menu de configuration.
 
-R-Edition du fichier .config puis menuconfig pour valider.
+R- make menuconfig -> general system -> local version
+		               -> file system    ->  seconde extended fs support
+
+Q-O√π se trouve la documentation du noyau Linux?
+
+R- https://www.kernel.org/doc/
 
 Q-Combien de temps a pris votre compilation (donnez des pr√©cisions sur l'environnement de
 g√©n√©ration)?
@@ -18,97 +23,148 @@ Q-Quel est le format de ce fichier?
 
 R-bzImage (big zimage)
 
+Q- Si on avait g√©n√©r√© le noyau Linux pour notre machine de d√©veloppement, que faudrait-il
+   faire ensuite pour ¬´ installer ¬ª ce noyau et tenter de red√©marrer notre machine avec notre
+     nouveau noyau? (Donnez les quelques commandes n√©cessaires).
+
+Q- Quelles diff√©rences avez-vous trouv√© entre la 3.12 et la version pr√©c√©dente ? Quelles sources
+       avez-vous utilis√©es ?
+
+
 Q-Pourquoi -static √† la compilation ?
 
 R- pour pas aller cherche les biblioth√©que dynamiquement qui ne sont pas pour ARM !!
 
+Q- Comment, Pourquoi?
 
-Q-Compilez en utilisant une Èdition de liens statique.
-? Comment, Pourquoi ?
-
-R- -static (??) , pour ne pas allez chercher les bibliothËque dynamiquement alors qu'elles ne seront pas sur le systeme
+R- option -static. Car Sur notre disque il n'y a pas les librairies qu'il chercherais dynamiquement.
 
 Q- Listez l'arborescence obtenue (format -l)
 
-Gnnn ??? format -l ????
+R- ls -lR root
+   root:
+   total 16
+	 drwxr-xr-x   2 miong    info        4096 Dec  5 22:49 dev
+	 drwxr-xr-x   2 miong    info        4096 Dec  5 22:48 sbin
 
-Q- Quelle commande avez-vous utilisÈe pour gÈnÈrer votre programme ´ init ª? Pourquoi ?
+	 root/dev:
+	 total 0
 
-R-gcc -static -m32 hello.c hello_32
-  mv hello_32 mondisque/root/sbin/init
-  Car on veut pas de liaison dynamique ( absence des librairy .so sur le disk !!)
+	 root/sbin:
+	 total 16
+	 -rwxr-xr-x   1 miong    info        5469 Dec  5 22:48 init
 
 
-Q- Donnez le rÈsultat de la commande file sur votre programme init / hello.
+Q- Quelle commande avez-vous utilis√©e pour g√©n√©rer votre programme ¬´ init ¬ª? Pourquoi ?
+
+R- gcc -static -m32 hello.c hello_32
+   mv hello_32 mondisque/root/sbin/init
+   Car on veut pas de liaison dynamique ( absence des librairy .so sur le      disk !!)
+
+
+Q- Donnez le r√©sultat de la commande file sur votre programme init / hello.
 
 R- hello_32: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), statically linked, for GNU/Linux 2.6.26, BuildID[sha1]
    =0x721ddb50188541279f89c058ced560136eac4ce4, not stripped
 
-Q- Quelle est la taille sur disque de cette commande init /hello? Par quelle(s) commande(s) avez-vous trouvÈ cette information?
+Q- Quelle est la taille sur disque de cette commande init /hello? Par quelle(s) commande(s)
+   avez-vous trouv√© cette information?
 
 R- 535778 octect - size
 
-Q- Quelles sont les tailles de ses segments de code et de donnÈes, sur disque et en mÈmoire? Par quelle(s) commande(s) avez-vous trouvÈ ces informations?
+Q- Quelles sont les tailles de ses segments de code et de donn√©es, sur disque et en m√©moire?
+     Par quelle(s) commande(s) avez-vous trouv√© ces informations?
 
 R- Code :  disk:0x80a8c mem:0x80a8c
    data :  disk:0x007b4 mem:0x02340
    readelf -l hello_32
 
-Q- A quelle adresse en mÈmoire virtuelle le segment de code sera-t-il placÈ? Et le segment dedonnÈes? Et la pile? Par quelle(s) commande(s) avez-vous trouvÈ ces informations ?
+
+Q- A quelle adresse en m√©moire virtuelle le segment de code sera-t-il plac√©? Et le segment de
+     donn√©es? Et la pile? Par quelle(s) commande(s) avez-vous trouv√© ces informations ?
 
 R- code: 0x08048000  data: 0x080c9a8c  stack: 0x00000000
    readelf -l hello_32
 
-Q- Pourquoi faut-il utiliser une Èdition de liens statique?
+Q- Pourquoi faut-il utiliser une √©dition de liens statique?
+
 
 R- Car les librairie ne seront pas disponible sur notre systeme donc pas de liaison dynamique possible.
 
-Q- Que faudrait-il faire pour utiliser une Èdition de liens dynamique?
+Q- Que faudrait-il faire pour utiliser une √©dition de liens dynamique?
 
-R- Il faudrait crÈe sur le disque de notre system le dossier /lib et y mettre les librairie en .so compiler pour ARM. ( les .h il vont ou ?? )
+R- Il faudrait cr√©e sur le disque de notre system le dossier /lib et y mettre les librairie en .so compiler pour ARM. ( les .h il vont ou ?? )
 
-Q- Quelles erreurs Èventuelles avez-vous rencontrÈes? Pourquoi? Comment avez-vous rÈsolu ces problËmes?
+Q- Quelles erreurs √©ventuelles avez-vous rencontr√©es? Pourquoi? Comment avez-vous r√©solu
+  ces probl√®mes?
 
 R- Pas d'erreur a signaler
 
-Q- A quoi sert l'argument ´ -append ª de Qemu? Que peut-on passer comme valeur ‡ cet
-argument? O˘ trouver cette information?
+Q- A quoi sert l'argument ¬´ -append ¬ª de Qemu? Que peut-on passer comme valeur √† cet
+      argument? O√π trouver cette information?
 
-R- l'argument append sert a passer un argument au noyaux - root= pour spÈcifier la racine du system de fichier | console= pour spÈcifier le /dev qui sert de console
+R- l'argument append sert a passer un argument au noyaux - root= pour sp√©cifier la racine du system de fichier | console= pour sp√©cifier le /dev qui sert de console. Dans la doctumentation de Qemu disponible en ligne ou avec man.
 
-Q- Que se passe-t-il quand votre programme ´ init ª se termine aprËs avoir affichÈ ´ Hello
-World! ª? Pourquoi?
+Q- Que se passe-t-il quand votre programme ¬´ init ¬ª se termine apr√®s avoir affich√© ¬´ Hello
+        World! ¬ª? Pourquoi?
 
-R- Kernel Panic !! car init fini. Normalement a la fin de init on fait un execvp pour passer la main a l'OS.
+R- Kernel Panic !! car init fini. Init est un processus qui ne doit pas finir. En effet il dit rester actif et etre le p√®re de tout les proc√©ssus lanc√© pas l'OS et des processus orphelins.
 
-Q- Quelle commande avez-vous utilisÈe pour gÈnÈrer votre programme ´ init ª?
+Q- Quelle commande avez-vous utilis√©e pour g√©n√©rer votre programme ¬´ init ¬ª?
 
 R- gcc -m32 hello.c -o hello_32_dyn
    cp hello_32_dyn mondique/root/sbin/init
 
-Q- Donnez le rÈsultat de la commande file sur votre programme init / hello.
+
+Q- Donnez le r√©sultat de la commande file sur votre programme init / hello.
 
 R- hello_32_dyn: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.26, BuildID[sha1] 
    =0xf650649ebe58a934f3e1b75e451b41f1245fa4a6, not stripped
 
-Q- Quelle est la taille sur disque de cette commande init /hello? Par quelle(s) commande(s) avez-vous trouvÈ cette information?
+
+Q- Quelle est la taille sur disque de cette commande init /hello? Par quelle(s) commande(s)
+   avez-vous trouv√© cette information?
 
 R- 1796 octets - size
 
-Q- Quelles sont les tailles de ses segments de code et de donnÈes, sur disque et en mÈmoire? Par quelle(s) commande(s) avez-vous trouvÈ ces informations?
+Q- Quelles sont les tailles de ses segments de code et de donn√©es, sur disque et en m√©moire?
+     Par quelle(s) commande(s) avez-vous trouv√© ces informations?
 
 R- code disk:0x00710 mem:0x00710
    data disk:0x0012c mem:0x00138
 	 readelf -l
 
-Q- Donnez le rÈsultat de la commande ldd.
+Q- Donnez le r√©sultat de la commande ldd.
 
 R- linux-gate.so.1 =>  (0xf7794000)
    libc.so.6 => /lib/i386-linux-gnu/i686/cmov/libc.so.6 (0xf7606000)
    /lib/ld-linux.so.2 (0xf7795000)
 
-Q- Indiquez quelles bibliothËques vous avez copiÈ dans votre arborescence root.
+
+Q- Indiquez quelles biblioth√®ques vous avez copi√© dans votre arborescence root.
 
 R- libc et ld-linux
+
+Q- Avez-vous rencontr√© des probl√®mes? Comment les avez-vous r√©solus?
+
+R- Probl√®me de d'√©dition de lien lors du make de qemu car nous compilons en 32bits mais l'edition de lien se faisait pour du 64bits. Pour resoudre le probleme j'ai exporter un flag "-m32" pour l'edition de lien (export LDFLAGS="-m32").
+
+Q- Quelle s√©quence de commandes avez-vous essay√© sur votre machine QEMU?
+
+R- ls & touch & vi & pwd 
+
+Q- Quelle taille fait votre fichier binaire ex√©cutable BusyBox? Quelle est la taille de sa section
+    de code? La taille de sa section de donn√©es, sur disque, en m√©moire?
+
+R- 	597363 octect - size
+	  code disk:0x8f458 mem:0x8f458
+	  data disk:0x00795 mem:0x02a74
+	  readelf -l
+
+Q- Pourriez-vous configurer busybox de mani√®re √† ce que cette commande ait une taille plus
+     r√©duite que le /bin/bash de votre machine de d√©veloppement?
+
+R- Le probl√®me vient du fais que busybox combine les diff√©rent utilitaire dans un seul ex√©cutalble et cr√©e des executable fictif qui font appelle a busybox avec les bon argument pour repr√©senter ces utilitaire. Il ne peut donc pas etre aussi leger que /bin/bash qui lui est programme qui ne contient aucun utilitaire mais qui vas les cherchers dans /bin et leur passe la main.
+
 
 
