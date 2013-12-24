@@ -40,7 +40,7 @@ void* thread2_code(void* args){
 	param.sched_priority = 50;
 	pthread_setschedparam(pthread_self(),SCHED_FIFO,&param);
 	printf("Thread moyenne priorite\n");
-	medium_ended = 1; // declaration de la terminasion du thread de moyenne priorite
+	medium_ended = 1; // declaration de la terminaison du thread de moyenne priorite
   pthread_exit(NULL);
 }
 
@@ -52,7 +52,7 @@ void* thread3_code(void* args){
 	pthread_setschedparam(pthread_self(),SCHED_FIFO,&param);
 	printf("Thread haute priorité\n");
 	pthread_mutex_lock(&mutex); // tentative de recuperation du mutex
-	if(medium_ended == 1) // le thread de moyenne priorité c'est executer avant recuperation du mutex si vrai
+	if(medium_ended == 1) // le thread de moyenne priorité s est execute avant recuperation du mutex si vrai
 		printf("INVERSION DE PRIORITE\n");
 	else
 		printf("PAS D'INVERSION DE PRIORITE\n");
@@ -75,7 +75,7 @@ int main(int argc,char** argv){
 	// initialisation du mutex
 	pthread_mutex_init(&mutex, &m_attr);	
 
-	//Creation des threads espacee dans le temps pour verifier l'inversion de priorite
+	//Creation des threads espacees dans le temps pour verifier l'inversion de priorite
 	pthread_create(&threads[0],NULL,&thread1_code,arg);
 	sleep(5);
 	pthread_create(&threads[1],NULL,&thread3_code,arg);
