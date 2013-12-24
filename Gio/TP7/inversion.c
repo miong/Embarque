@@ -1,3 +1,4 @@
+
 /**********************************************************************/
 /*                                                                    */
 /*                TP7 - INVERSION.C - MION GIOVANNI                   */
@@ -9,77 +10,49 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/sem.h>
+#include <string.h>
 #include <pthread.h>
 #include <errno.h>
 
+//variables globales
 static int medium_ended;
+static int go_foward;
+pthread_mutex_t mutex;
 
-void P(int semid,short nb){
-	struct sembuf op;	
-	op.sem_num = nb;
-	op.sem_op = -1;
-	op.sem_flg = 0;
-	if(semop(semid, &op, 1)<0){
-	  printf("Erreur P : %d\n",errno);
-	}
-}
-
-void V(int semid,short nb){
-	struct sembuf op;	
-	op.sem_num = nb;
-	op.sem_op = 1;
-	op.sem_flg = 0;
-	if(semop(semid, &op, 1)<0){
-	  printf("Erreur V : %d\n",errno);
-	}
-}
-
+// main du thread de basse priorite
 void* thread1_code(void* args){
-	int sems,i;
-  key_t clef;
 	struct sched_param param;
 	
 	param.sched_priority = 30;
 	pthread_setschedparam(pthread_self(),SCHED_FIFO,&param);
-	clef = ftok("./semfile",'S');	
-	sems = semget(clef, 2,0666);
-	printf("Thread 30\n");
+	printf("Thread basse priorite\n");
 
-	P(sems,0);
-	while(i<5000000){
-		i++;
-	}
-	V(sems,0);
+	pthread_mutex_lock(&mutex);
+	while(!go_foward); // attente active avant de liberer le mutex
+	pthread_mutex_unlock(&mutex);
   pthread_exit(NULL);
 }
 
+// main du thread de moyenne priorite
 void* thread2_code(void* args){
 	struct sched_param param;
 	
 	param.sched_priority = 50;
 	pthread_setschedparam(pthread_self(),SCHED_FIFO,&param);
-	printf("Thread 50\n");
-	medium_ended = 1;
+	printf("Thread moyenne priorite\n");
+	medium_ended = 1; // declaration de la terminasion du thread de moyenne priorite
   pthread_exit(NULL);
 }
 
+// main du thread de haute priorite
 void* thread3_code(void* args){
-	int sems;
-  key_t clef;
 	struct sched_param param;
 	
 	param.sched_priority = 80;
 	pthread_setschedparam(pthread_self(),SCHED_FIFO,&param);
-	clef = ftok("./semfile",'S');	
-	sems = semget(clef, 2,0666);
-	printf("Thread 80\n");
-	printf("try to get the sem\n");
-	P(sems,0);
-	printf("sem OK\n");
-	if(medium_ended == 1)
+	printf("Thread haute priorité\n");
+	pthread_mutex_lock(&mutex); // tentative de recuperation du mutex
+	if(medium_ended == 1) // le thread de moyenne priorité c'est executer avant recuperation du mutex si vrai
 		printf("INVERSION DE PRIORITE\n");
 	else
 		printf("PAS D'INVERSION DE PRIORITE\n");
@@ -88,21 +61,28 @@ void* thread3_code(void* args){
 
 int main(int argc,char** argv){
 	pthread_t threads[3];
-	int sems;
-  key_t clef;
+	pthread_mutexattr_t   m_attr;
   void *arg;
   arg = malloc(sizeof(char));
-	clef = ftok("./semfile",'S');
-  sems = semget(clef, 2, IPC_CREAT | 0666);
-  semctl(sems, 0, SETVAL, 0);
-  semctl(sems, 1, SETVAL, 0);
-	
+
+	//creation des attributs du mutex
+	pthread_mutexattr_init(&m_attr);
+	pthread_mutexattr_setpshared(&m_attr, PTHREAD_PROCESS_SHARED);
+	if(argc==2 && strcmp(argv[1],"heritage")==0){
+		pthread_mutexattr_setprotocol(&m_attr, PTHREAD_PRIO_INHERIT);	
+		printf("Heritage de priorité activé\n");
+	}
+	// initialisation du mutex
+	pthread_mutex_init(&mutex, &m_attr);	
+
+	//Creation des threads espacee dans le temps pour verifier l'inversion de priorite
 	pthread_create(&threads[0],NULL,&thread1_code,arg);
 	sleep(5);
 	pthread_create(&threads[1],NULL,&thread3_code,arg);
 	sleep(5);
 	pthread_create(&threads[2],NULL,&thread2_code,arg);
-
+	go_foward=1; // fin d'attente active pour le thread de basse priorite
+	pthread_join(threads[1],NULL);
 	return 0;
 }
 
